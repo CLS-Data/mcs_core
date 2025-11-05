@@ -51,7 +51,7 @@ We welcome user feedback. Please open an issue on GitHub or email **clsdata@ucl.
 - Dominic Kelly
 - Emla Fitzsimons
  
-## Contributors [optional e.g., for code checkers]
+## Contributors
 
 - Megan Arnot
 - Gergo Baranyi
