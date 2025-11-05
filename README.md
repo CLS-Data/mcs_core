@@ -1,16 +1,14 @@
-# Title [e.g., Next Steps Longitudinal Derived Variable dataset - note also repository names should ideally be short and descriptive, e.g., mcs_x (where x is the type of variables covered in a single word)]
+# MCS Core 1-7 Longitudinal Dataset
 
 [Centre for Longitudinal Studies](https://cls.ucl.ac.uk/)
 
 ---
 
 ## Overview [high-level summary, e.g. the below]
-- This repository provides **R scripts** that harmonise the multiple sweeps of [**Next Steps**](https://cls.ucl.ac.uk/cls-studies/next-steps/) into a single tidy dataset, so analysts can get straight to research rather than recoding. 
-- The variables are given consistent names that reflect the content and age of participants (e.g., `Educ25` for **educational** attainment at age 25).
-
+- This repository provides **R scripts** that harmonise the multiple sweeps of [**Millennium Cohort Study**](https://cls.ucl.ac.uk/cls-studies/millennium-cohort-study//) into a single tidy dataset, so analysts can get straight to research rather than recoding. 
 ---
 
-## Included variable domains [give an illustrative overview – no need to duplicate what already exists e.g., in UKDS documentation]
+## Included variable domains
 
 | Domain         | Examples                               |
 | -------------- | -------------------------------------- |
@@ -20,15 +18,27 @@
 | Health         | self-rated health, limiting illness    |
 | Relationships  | partnership status, sexual orientation |
 
-*See `xxx.docx` for full details.*
+*See `mcs_core_sweeps 1_7_user_guide.docx` for full details.*
 
 ---
 
-## Syntax and data availability [tell the user where the syntax is + how source data should be **set up** to run it]
+## Syntax and data availability for R
+1. Download the following folders as .dta files from the UK Data Service (UKDS):
+SN 4683, SN 5350, SN 5795, SN 6411, SN 7464, SN 8156, SN 8682, SN 8172, SN 8550.
+2. Open the file "1_MCS_Core_Sweeps1_7.R" within the Codes subfolder.
+3. Define the path for core_dir to the folder that this file is contained in.
+4. Define the subpaths for each of the 9 folders downloaded from UKDS.
+5. Run or source the entire 1_MCS_Core_Sweeps1_7.R.
+6. Your completed MCS Core file can be found in the temp_data folder.
 
-- *Source data:* Download raw Next Steps files from the **UK Data Service** and place them in `data/raw/`.
-- *Syntax:* `01_build_dataset.R` reads those files and produces `data/derived/next_steps.parquet` *(note: keep the code well-commented and use **relative** file paths—e.g., `here::here("data", "raw", ...)` in R, or `$raw` / `$derived` globals in Stata).*
-- *Derived dataset:* Available to download from the [**UK Data Service**](https://beta.ukdataservice.ac.uk).
+## Syntax and data availability for Stata
+1. Download the following folders as .dta files from the UK Data Service (UKDS):
+SN 4683, SN 5350, SN 5795, SN 6411, SN 7464, SN 8156, SN 8682, SN 8172, SN 8550.
+2. Open the file 1_MCS_Core_Sweeps1_7.do within the Codes subfolder.
+3. Define the path for core_dir to the folder this file is contained in.
+4. Define the subpaths for each of the 9 folders downloaded from UKDS.
+5. Run the entire 1_MCS_Core_Sweeps1_7.do.
+6. Your completed MCS Core file can be found in the temp_data folder.
 
 ---
 
@@ -37,11 +47,20 @@
 We welcome user feedback. Please open an issue on GitHub or email **clsdata@ucl.ac.uk**.
 
 ## Authors
-- X author
+- Nicolas Libuy
+- Dominic Kelly
+- Emla Fitzsimons
  
 ## Contributors [optional e.g., for code checkers]
 
-- X contributor
+- Megan Arnot
+- Gergo Baranyi
+- Uta Bolt
+- Ollie Cassaganeau-Francis
+- Marta Francesconi
+- Tom Metherell
+- Larissa Pople
+- Georgia Turner
 
 ## Licence  
 Code: MIT Licence (see `LICENSE`).
