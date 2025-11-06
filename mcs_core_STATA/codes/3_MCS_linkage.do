@@ -1,14 +1,14 @@
 *---------------------------------------------------------------------------*
-* Do-file to generate: mcs_core_sweeps1_7 dataset
+* Do-file to generate: mcs_core dataset
 *---------------------------------------------------------------------------*
-* Steps to generate mcs_core_sweeps1_7.dta
+* Steps to generate mcs_core.dta
 * Using as data input mcs_longitudinal_family_file_long:
 
 * 1) Merge Family derived variables (MCSID SWEEP) 
 * 2) Merge cohort member derived variables (MCSID NUM SWEEP)
 * 3) Merge Parent ((Main Interviewee) derived variables (MCSID SWEEP - but note that information is at the Main/Partner Interviewee level)
 * 4) Change/edit variable names/labels/order and others
-* 5) Save dataset as mcs_core_sweeps1_7
+* 5) Save dataset as mcs_core
 
 use "${temp_data}mcs_longitudinal_family_file_long.dta" ,clear
 
@@ -137,7 +137,7 @@ bys sweep: sum dmbmi // don't recode missing to -8 because it's BMI of the Natur
 
 sort mcsid cnum sweep
 compress
-save "${temp_data}mcs_core_sweeps1_7.dta", replace
+save "${temp_data}mcs_core.dta", replace
 
 
 

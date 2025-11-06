@@ -1,7 +1,7 @@
 *---------------------------------------------------------------------------*
 * Do-file to generate: mcs_longitudinal_family_file_long dataset
 *---------------------------------------------------------------------------*
-* Steps to generate mcs_core_sweeps1_7.dta
+* Steps to generate mcs_core.dta
 * 1) Extract variables from raw MCS data
 * 2) Change/recode/edit variables if needed
 * 3) Generate new variable in a longitudinal format

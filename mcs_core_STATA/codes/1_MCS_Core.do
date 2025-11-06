@@ -1,10 +1,10 @@
 *---------------------------------------------------------------------------*
-* Do-file to generate: mcs_core_sweeps1_7
+* Do-file to generate: mcs_core
 
 *---------------------------------------------------------------------------*
-* Steps to generate mcs_core_sweeps1_7.dta
+* Steps to generate mcs_core.dta
 
-*Step 1)	From UKDS or MCS GitHub repository, download and open the file `mcs_core_sweeps1_7.zip'. This file contains a folder named `mcs_core_sweeps1_7' with the following sub-folder structure:  
+*Step 1)	From UKDS or MCS GitHub repository, download and open the file `mcs_core.zip'. This file contains a folder named `mcs_core' with the following sub-folder structure:  
 
 * temp_data
 * 	 cmderived
@@ -18,8 +18,8 @@
 * Step 2) Download MCS datasets from UKDS.
 
 * Step 3) Manually change the lines that contains:
-* a.	the path which points to the folder `mcs_core_sweeps1_7' in your computer
-* Add to the global named "path" (see below) the corresponding path in your computer where the folder mcs_core_sweeps1_7 was stored. 
+* a.	the path which points to the folder `mcs_core' in your computer
+* Add to the global named "path" (see below) the corresponding path in your computer where the folder mcs_core was stored. 
 
 global path "" // <- add the path here
 
@@ -39,7 +39,7 @@ global mcs7 "" // <- add path to the MCS 7 data sets - UKDS SN 8682
 global closer "" // <- add path to the 'Harmonised Height, Weight and BMI in Five Longitudinal Cohort Studies: Millennium Cohort Study' dataset - UKDS SN 8550
 
 
-* Step 4) Run the code 1_MCS_Core_Sweeps1_7 (this do-file), which will create the mcs_core_sweeps1_7 data set and save it in the folder `temp_data'.
+* Step 4) Run the code 1_MCS_Core (this do-file), which will create the mcs_core data set and save it in the folder `temp_data'.
 
 
 *---------------------------------------------------------------------------*
@@ -92,7 +92,7 @@ do "${codes_pdv}`var'.do"
 
 * Do-file that generate the mcs_longitudinal_family_file_long dataset
 do "${codes}2_MCS_long.do" 
-* Do-file that generate the mcs_core_sweeps1_7 dataset
+* Do-file that generate the mcs_core dataset
 do "${codes}3_MCS_linkage.do"
 
 
