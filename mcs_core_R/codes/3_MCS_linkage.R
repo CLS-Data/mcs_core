@@ -1,5 +1,5 @@
 #----------------------------------------------------------------------------#
-# R Script to generate the mcs_core_sweeps1_7 dataset using tidyverse
+# R Script to generate the mcs_core dataset using tidyverse
 #----------------------------------------------------------------------------#
 
 # Required packages
@@ -114,11 +114,11 @@ for (v in listvar_dk) {
 #----------------------------------------------------------------------------#
 
 # Compress and save the final dataset
-mcs_core_sweeps1_7 <- mcs_longitudinal_family_file_long %>%
+mcs_core <- mcs_longitudinal_family_file_long %>%
   arrange(MCSID, CNUM, SWEEP)
 
 # Save as .dta
-saveRDS(mcs_core_sweeps1_7, file = file.path(temp_data, "mcs_core_sweeps1_7.Rds"))
+saveRDS(mcs_core, file = file.path(temp_data, "mcs_core.Rds"))
 
 #save memory
-rm(list = setdiff(ls(), "mcs_core_sweeps1_7"))
+rm(list = setdiff(ls(), "mcs_core"))

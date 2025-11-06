@@ -1,5 +1,5 @@
 #----------------------------------------------------------------------------#
-# R Script to generate the mcs_core_sweeps1_7 dataset
+# R Script to generate the mcs_core dataset
 #----------------------------------------------------------------------------#
 
 # NB. Please use .dta files only throughout your workflow.
@@ -14,8 +14,8 @@ library(labelled)
 # Step 1: Define paths for your data and code directories
 #----------------------------------------------------------------------------#
 
-# Define the root path where the mcs_core_sweeps1_7 folder is located
-core_dir <- "" # Add the path to your 'mcs_core_sweeps1_7' folder here
+# Define the root path where the mcs_core folder is located
+core_dir <- "" # Add the path to your 'mcs_core' folder here
 
 # Define specific subpaths for datasets
 mcs1 <- "" # Path to the MCS 1 datasets - UKDS SN 4683
@@ -85,7 +85,7 @@ for (var in dparentvar) {
 # Run the script to generate the mcs_longitudinal_family_file_long dataset
 source(file.path(codes, "2_MCS_long.R"))
 
-# Run the script to generate the mcs_core_sweeps1_7 dataset
+# Run the script to generate the mcs_core dataset
 source(file.path(codes, "3_MCS_linkage.R"))
 
 #----------------------------------------------------------------------------#
