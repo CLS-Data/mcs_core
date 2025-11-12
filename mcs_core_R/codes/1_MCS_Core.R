@@ -1,5 +1,5 @@
 #----------------------------------------------------------------------------#
-# R Script to generate the mcs_core dataset
+# R Script to generate the MCS Core dataset
 #----------------------------------------------------------------------------#
 
 # NB. Please use .dta files only throughout your workflow.
@@ -14,7 +14,7 @@ library(labelled)
 # Step 1: Define paths for your data and code directories
 #----------------------------------------------------------------------------#
 
-# Define the root path where the mcs_core folder is located
+# Define the root path where the MCS Core folder is located
 core_dir <- "" # Add the path to your 'mcs_core' folder here
 
 # Define specific subpaths for datasets
@@ -85,7 +85,7 @@ for (var in dparentvar) {
 # Run the script to generate the mcs_longitudinal_family_file_long dataset
 source(file.path(codes, "2_MCS_long.R"))
 
-# Run the script to generate the mcs_core dataset
+# Run the script to generate the MCS Core dataset
 source(file.path(codes, "3_MCS_linkage.R"))
 
 #----------------------------------------------------------------------------#

@@ -1,5 +1,5 @@
 #----------------------------------------------------------------------------#
-# R Script to generate the mcs_core dataset using tidyverse
+# R Script to generate the MCS Core dataset using tidyverse
 #----------------------------------------------------------------------------#
 
 # Required packages
