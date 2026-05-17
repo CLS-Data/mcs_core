@@ -47,9 +47,9 @@
 #	DHMAS	:	DV Bracken: Shapes % mastery
 #	DBSRC	:	DV Bracken: School Readiness Composite
 #	DSRCM	:	DV Bracken: School Readiness Composite % mastery
-#	DSRCS	:	DV Bracken: School Readiness Composit Standard Score
+#	DSRCS	:	DV Bracken: School Readiness Composite Standard Score
 #	DSRCP	:	DV Bracken: School Readiness Composite Percentile
-#	DSRCN	:	DV Bracken:School Readiness Comp Normativ Classificatn
+#	DSRCN	:	DV Bracken: School Readiness Comp Normative Classification
 #	DNVRS	:	DV BAS Naming Vocabulary - Raw Scores
 #	DNVAB	:	DV BAS Naming Vocabulary - Ability Scores
 #	DNVTS	:	DV BAS Naming Vocabulary - T-Scores
@@ -177,78 +177,56 @@ cognitive_all <- cognitive_all %>%
     SWEEP == 6 ~ FCWRDSC,
     .default = NA_real_))
 
-attr(cognitive_all$HAND, "label") <- "Developmental milestones: hands together"
-attr(cognitive_all$GRAB, "label") <- "Developmental milestones: grabs objects"
-attr(cognitive_all$PICK, "label") <- "Developmental milestones: holds small objects"
-attr(cognitive_all$PTOY, "label") <- "Developmental milestones: passes a toy"
-attr(cognitive_all$SITU, "label") <- "Developmental milestones: sits up"
-attr(cognitive_all$STAN, "label") <- "Developmental milestones: stands up holding on"
-attr(cognitive_all$WALK, "label") <- "Developmental milestones: take child to park or playground"
-attr(cognitive_all$SMIL, "label") <- "Developmental milestones: smiles"
-attr(cognitive_all$GIVE, "label") <- "Developmental milestones: gives toy"
-attr(cognitive_all$WAVE, "label") <- "Developmental milestones: waves bye-bye"
-attr(cognitive_all$ARMS, "label") <- "Developmental milestones: extend arms for being picked up"
-attr(cognitive_all$NODS, "label") <- "Developmental milestones: nods for yes"
-attr(cognitive_all$DNVRS, "label") <- "DV BAS Naming Vocabulary - Raw Scores"
-attr(cognitive_all$DNVAB, "label") <- "DV BAS Naming Vocabulary - Ability Scores"
-attr(cognitive_all$DNVTS, "label") <- "DV BAS Naming Vocabulary - T-Scores"
-attr(cognitive_all$DPCRS, "label") <- "DV BAS Pattern Construction - Raw Scores"
-attr(cognitive_all$DPCAB, "label") <- "DV BAS Pattern Construction - Ability Scores"
-attr(cognitive_all$DPCTS, "label") <- "DV BAS Pattern Construction - T-Scores"
-attr(cognitive_all$DPSRS, "label") <- "DV BAS Picture Similarities - Raw Scores"
-attr(cognitive_all$DPSAB, "label") <- "DV BAS Picture Similarities - Ability Scores"
-attr(cognitive_all$DPSTS, "label") <- "DV BAS Picture Similarities - T-Scores"
-attr(cognitive_all$DWRRS, "label") <- "DV BAS Word Reading - Raw Scores"
-attr(cognitive_all$DWRAB, "label") <- "DV BAS Word Reading - Ability Scores"
-attr(cognitive_all$DWRTS, "label") <- "DV BAS Word Reading - T-Scores"
-attr(cognitive_all$DVSRS, "label") <- "DV BAS Verbal Similarities - Raw Scores"
-attr(cognitive_all$DVSAB, "label") <- "DV BAS Verbal Similarities - Ability Scores"
-attr(cognitive_all$DVSTS, "label") <- "DV BAS Verbal Similarities - T-Scores"
-attr(cognitive_all$CMTOTSCOR, "label") <- "DV NFER Maths Test  (Total Raw Score)"
-attr(cognitive_all$CMATHS7SC, "label") <- "DV NFER Maths Test (Raw score scaled to original test out of 28 marks)"
-attr(cognitive_all$CMATHS7SA, "label") <- "DV NFER Maths Test (Standardised Age Score based on standardisation in 2004)"
-attr(cognitive_all$CWRDSC, "label") <- "DV APU Vocabulary Test of CM (Word activity score out of 20)"
-
 cognitive_all <- cognitive_all %>%
   mutate(SITU = labelled(
     SITU,
-    labels = c("Refusal" = -9, "Don't know" = -8, "Not applicable" = -1)
+    labels = c("Refusal" = -9, "Don't know" = -8, "Not applicable" = -1,
+               "Often" = 1, "Once or twice" = 2, "Not yet" = 3)
   )) %>%
   mutate(STAN = labelled(
     STAN,
-    labels = c("Refusal" = -9, "Don't know" = -8, "Not applicable" = -1)
+    labels = c("Refusal" = -9, "Don't know" = -8, "Not applicable" = -1,
+               "Often" = 1, "Once or twice" = 2, "Not yet" = 3)
   )) %>%
   mutate(HAND = labelled(
     HAND,
-    labels = c("Refusal" = -9, "Don't know" = -8, "Not applicable" = -1)
+    labels = c("Refusal" = -9, "Don't know" = -8, "Not applicable" = -1,
+               "Often" = 1, "Once or twice" = 2, "Not yet" = 3)
   )) %>%
   mutate(PICK = labelled(
     PICK,
-    labels = c("Refusal" = -9, "Don't know" = -8, "Not applicable" = -1)
+    labels = c("Refusal" = -9, "Don't know" = -8, "Not applicable" = -1,
+               "Often" = 1, "Once or twice" = 2, "Not yet" = 3)
   )) %>%
   mutate(PTOY = labelled(
     PTOY,
-    labels = c("Refusal" = -9, "Don't know" = -8, "Not applicable" = -1)
+    labels = c("Refusal" = -9, "Don't know" = -8, "Not applicable" = -1,
+               "Often" = 1, "Once or twice" = 2, "Not yet" = 3)
   )) %>%
   mutate(WALK = labelled(
     WALK,
-    labels = c("Refusal" = -9, "Don't know" = -8, "Not applicable" = -1)
+    labels = c("Refusal" = -9, "Don't know" = -8, "Not applicable" = -1,
+               "Often" = 1, "Once or twice" = 2, "Not yet" = 3)
   )) %>%
   mutate(GIVE = labelled(
     GIVE,
-    labels = c("Refusal" = -9, "Don't know" = -8, "Not applicable" = -1)
+    labels = c("Refusal" = -9, "Don't know" = -8, "Not applicable" = -1,
+               "Often" = 1, "Once or twice" = 2, "Not yet" = 3)
   )) %>%
   mutate(WAVE = labelled(
     WAVE,
-    labels = c("Refusal" = -9, "Don't know" = -8, "Not applicable" = -1)
+    labels = c("Refusal" = -9, "Don't know" = -8, "Not applicable" = -1,
+               "Often" = 1, "Once or twice" = 2, "Not yet" = 3)
   )) %>%
   mutate(ARMS = labelled(
     ARMS,
-    labels = c("Refusal" = -9, "Don't know" = -8, "Not applicable" = -1)
+    labels = c("Refusal" = -9, "Don't know" = -8, "Not applicable" = -1,
+               "Often" = 1, "Once or twice" = 2, "Not yet" = 3)
   )) %>%
   mutate(NODS = labelled(
     NODS,
-    labels = c("Refusal" = -9, "Don't know" = -8, "Not applicable" = -1)
+    labels = c("Refusal" = -9, "Don't know" = -8, "Not applicable" = -1,
+               "Often" = 1, "Once or twice" = 2, "Not yet" = 3)
   )) %>%
   mutate(DCOSC = labelled(
     DCOSC,
@@ -386,6 +364,55 @@ cognitive_all <- cognitive_all %>%
     CWRDSC,
     labels = c("Software error/respondent completed wrong activity" = -3, "Not applicable" = -1)
   ))
+
+attr(cognitive_all$HAND, "label") <- "Developmental milestones: hands together"
+attr(cognitive_all$GRAB, "label") <- "Developmental milestones: grabs objects"
+attr(cognitive_all$PICK, "label") <- "Developmental milestones: holds small objects"
+attr(cognitive_all$PTOY, "label") <- "Developmental milestones: passes a toy"
+attr(cognitive_all$SITU, "label") <- "Developmental milestones: sits up"
+attr(cognitive_all$STAN, "label") <- "Developmental milestones: stands up holding on"
+attr(cognitive_all$WALK, "label") <- "Developmental milestones: take child to park or playground"
+attr(cognitive_all$SMIL, "label") <- "Developmental milestones: smiles"
+attr(cognitive_all$GIVE, "label") <- "Developmental milestones: gives toy"
+attr(cognitive_all$WAVE, "label") <- "Developmental milestones: waves bye-bye"
+attr(cognitive_all$ARMS, "label") <- "Developmental milestones: extend arms for being picked up"
+attr(cognitive_all$NODS, "label") <- "Developmental milestones: nods for yes"
+attr(cognitive_all$DNVRS, "label") <- "DV BAS Naming Vocabulary - Raw Scores"
+attr(cognitive_all$DNVAB, "label") <- "DV BAS Naming Vocabulary - Ability Scores"
+attr(cognitive_all$DNVTS, "label") <- "DV BAS Naming Vocabulary - T-Scores"
+attr(cognitive_all$DPCRS, "label") <- "DV BAS Pattern Construction - Raw Scores"
+attr(cognitive_all$DPCAB, "label") <- "DV BAS Pattern Construction - Ability Scores"
+attr(cognitive_all$DPCTS, "label") <- "DV BAS Pattern Construction - T-Scores"
+attr(cognitive_all$DPSRS, "label") <- "DV BAS Picture Similarities - Raw Scores"
+attr(cognitive_all$DPSAB, "label") <- "DV BAS Picture Similarities - Ability Scores"
+attr(cognitive_all$DPSTS, "label") <- "DV BAS Picture Similarities - T-Scores"
+attr(cognitive_all$DWRRS, "label") <- "DV BAS Word Reading - Raw Scores"
+attr(cognitive_all$DWRAB, "label") <- "DV BAS Word Reading - Ability Scores"
+attr(cognitive_all$DWRTS, "label") <- "DV BAS Word Reading - T-Scores"
+attr(cognitive_all$DVSRS, "label") <- "DV BAS Verbal Similarities - Raw Scores"
+attr(cognitive_all$DVSAB, "label") <- "DV BAS Verbal Similarities - Ability Scores"
+attr(cognitive_all$DVSTS, "label") <- "DV BAS Verbal Similarities - T-Scores"
+attr(cognitive_all$CMTOTSCOR, "label") <- "DV NFER Maths Test  (Total Raw Score)"
+attr(cognitive_all$CMATHS7SC, "label") <- "DV NFER Maths Test (Raw score scaled to original test out of 28 marks)"
+attr(cognitive_all$CMATHS7SA, "label") <- "DV NFER Maths Test (Standardised Age Score based on standardisation in 2004)"
+attr(cognitive_all$CWRDSC, "label") <- "DV APU Vocabulary Test of CM (Word activity score out of 20)"
+attr(cognitive_all$DCOSC, "label") <- "DV Bracken: Colours Raw Score"
+attr(cognitive_all$DCMAS, "label") <- "DV Bracken: Colours % mastery"
+attr(cognitive_all$DLESC, "label") <- "DV Bracken: Letters Raw Score"
+attr(cognitive_all$DLMAS, "label") <- "DV Bracken: Letters % mastery"
+attr(cognitive_all$DNOSC, "label") <- "DV Bracken: Numbers Raw Score"
+attr(cognitive_all$DNMAS, "label") <- "DV Bracken: Numbers % mastery"
+attr(cognitive_all$DSZSC, "label") <- "DV Bracken: Sizes Raw Score"
+attr(cognitive_all$DSMAS, "label") <- "DV Bracken: Size % mastery"
+attr(cognitive_all$DCMSC, "label") <- "DV Bracken: Comparisons Raw Score"
+attr(cognitive_all$DOMAS, "label") <- "DV Bracken: Comparisons % mastery"
+attr(cognitive_all$DSHSC, "label") <- "DV Bracken: Shapes Raw Score"
+attr(cognitive_all$DHMAS, "label") <- "DV Bracken: Shapes % mastery"
+attr(cognitive_all$DBSRC, "label") <- "DV Bracken: School Readiness Composite"
+attr(cognitive_all$DSRCM, "label") <- "DV Bracken: School Readiness Composite % mastery"
+attr(cognitive_all$DSRCS, "label") <- "DV Bracken: School Readiness Composite Standard Score"
+attr(cognitive_all$DSRCP, "label") <- "DV Bracken: School Readiness Composite Percentile"
+attr(cognitive_all$DSRCN, "label") <- "DV Bracken: School Readiness Comp Normative Classification"
 
 #4, save temporal data 
 cognitive_all <- cognitive_all %>% select(SWEEP, MCSID, CNUM, SMIL, SITU, STAN, HAND, GRAB, PICK, PTOY,

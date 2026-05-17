@@ -30,8 +30,12 @@ cghe_mcs7 <- read_dta(file.path(mcs7, "mcs7_cm_interview.dta")) %>%
   rename(CNUM = GCNUM00) %>%
   select(MCSID, CNUM, SWEEP, GCCGHE00)
 
-datasets <- list(cghe_mcs3, cghe_mcs4,
-                 cghe_mcs5, cghe_mcs6, cghe_mcs7)
+cghe_mcs8 <- read_dta(file.path(mcs8, "mcs8_23y_cm_survey.dta")) %>%
+  mutate(SWEEP = 8) %>%
+  rename(CNUM = hcnum00, MCSID = mcsid) %>%
+  select(MCSID, CNUM, SWEEP, hscghe00)
+
+datasets <- list(cghe_mcs3, cghe_mcs4, cghe_mcs5, cghe_mcs6, cghe_mcs7, cghe_mcs8)
 cghe_all <- bind_rows(datasets)
 
 table(cghe_all$SWEEP, useNA = "ifany")
@@ -58,6 +62,7 @@ cghe_all <- cghe_all %>%
   mutate(CGHE_SR = case_when(
     SWEEP == 6 ~ FCCGHE00,
     SWEEP == 7 ~ GCCGHE00,
+    SWEEP == 8 ~hscghe00,
     .default = NA_real_))
 
 cghe_all <- cghe_all %>%
@@ -104,7 +109,8 @@ cghe_all <- cghe_all %>%
       "MCS4" = 4,
       "MCS5" = 5,
       "MCS6" = 6,
-      "MCS7" = 7
+      "MCS7" = 7,
+      "MCS8" = 8
     )
   ))
 
@@ -117,4 +123,4 @@ attr(cghe_all$SWEEP, "label") <- "MCS Sweep"
 saveRDS(cghe_all, file = file.path(temp_data_cdv, "CGHE.Rds"))
 
 #5, save working memory
-rm(cghe_all, cghe_mcs3, cghe_mcs4, cghe_mcs5, cghe_mcs6, cghe_mcs7, datasets)
+rm(cghe_all, cghe_mcs3, cghe_mcs4, cghe_mcs5, cghe_mcs6, cghe_mcs7, cghe_mcs8, datasets)

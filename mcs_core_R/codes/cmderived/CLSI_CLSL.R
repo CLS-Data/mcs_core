@@ -39,7 +39,12 @@ clsi_mcs7 <- read_dta(file.path(mcs7, "mcs7_cm_interview.dta")) %>%
   mutate(SWEEP = 7) %>%
   select(MCSID, CNUM, SWEEP, GCCLSI00, GCCLSL00, GCCLSP00)
 
-datasets <- list(clsi_mcs2, clsi_mcs3, clsi_mcs4, clsi_mcs5, clsi_mcs6, clsi_mcs7)
+clsi_mcs8 <- read_dta(file.path(mcs8, "mcs8_23y_cm_survey.dta")) %>%
+  rename(CNUM = hcnum00, MCSID = mcsid) %>%
+  mutate(SWEEP = 8) %>%
+  select(MCSID, CNUM, SWEEP, hsclsi00, hsclsl00)
+
+datasets <- list(clsi_mcs2, clsi_mcs3, clsi_mcs4, clsi_mcs5, clsi_mcs6, clsi_mcs7, clsi_mcs8)
 clsi_clsl_all <- bind_rows(datasets)
 table(clsi_clsl_all$SWEEP, useNA = "ifany")
 
@@ -66,7 +71,12 @@ clsi_clsl_all <- clsi_clsl_all %>%
     GCCLSL00 == 3 ~ 2,
     GCCLSL00 == 4 ~ -8,
     GCCLSL00 == 6 ~ -1,
-    TRUE ~ GCCLSL00))
+    TRUE ~ GCCLSL00)) %>%
+  mutate(hsclsl00 = case_when(
+    hsclsl00 == 1 ~ 1,
+    hsclsl00 == 2 ~ 1,
+    hsclsl00 == 3 ~ 2,
+    TRUE ~ hsclsl00))
 
 #3, Generate new variable in a longitudinal format
 clsi_clsl_all <- clsi_clsl_all %>%
@@ -83,6 +93,7 @@ clsi_clsl_all <- clsi_clsl_all %>%
   mutate(CLSI_SR = NA_real_) %>%
   mutate(CLSI_SR = case_when(
     SWEEP == 7 ~ GCCLSI00,
+    SWEEP == 8 ~ hsclsi00,
     TRUE ~ CLSI_SR))
 
 clsi_clsl_all <- clsi_clsl_all %>%
@@ -99,6 +110,7 @@ clsi_clsl_all <- clsi_clsl_all %>%
   mutate(CLSL_SR = NA_real_) %>%
   mutate(CLSL_SR = case_when(
     SWEEP == 7 ~ GCCLSL00,
+    SWEEP == 8 ~ hsclsl00,
     TRUE ~ CLSL_SR))
 
 clsi_clsl_all <- clsi_clsl_all %>%
@@ -162,7 +174,7 @@ table(clsi_clsl_all$CLSL_SR, clsi_clsl_all$SWEEP, useNA = "ifany")
 clsi_clsl_all <- clsi_clsl_all %>% select(MCSID, CNUM, SWEEP, CLSI, CLSI_SR, CLSL, CLSL_SR)
 
 clsi_clsl_all <- clsi_clsl_all %>%
-  mutate(SWEEP = labelled(SWEEP,labels = c( "MCS2" = 2, "MCS3" = 3, "MCS4" = 4, "MCS5" = 5, "MCS6" = 6,"MCS7" = 7))) %>%
+  mutate(SWEEP = labelled(SWEEP,labels = c( "MCS2" = 2, "MCS3" = 3, "MCS4" = 4, "MCS5" = 5, "MCS6" = 6, "MCS7" = 7, "MCS8" = 8))) %>%
   mutate(CNUM = factor(CNUM, levels = c(1, 2, 3), 
                          labels = c("1st Cohort Member of the family",
                                     "2nd Cohort Member of the family",
@@ -171,4 +183,4 @@ attr(clsi_clsl_all$SWEEP, "label") <- "MCS Sweep"
 saveRDS(clsi_clsl_all, file = file.path(temp_data_cdv, "CLSI_CLSL.Rds"))
 
 #5, save working memory
-rm(clsi_clsl_all, clsi_mcs2, clsi_mcs3, clsi_mcs4, clsi_mcs5, clsi_mcs6, clsi_mcs7, datasets)
+rm(clsi_clsl_all, clsi_mcs2, clsi_mcs3, clsi_mcs4, clsi_mcs5, clsi_mcs6, clsi_mcs7, clsi_mcs8, datasets)

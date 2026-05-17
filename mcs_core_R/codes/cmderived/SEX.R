@@ -78,6 +78,9 @@ sex_all <- sex_all %>%
     )
   ))  
 
+attr(sex_all$SEX, "label") <- "CM sex at birth"
+table(sex_all$SEX, useNA = "ifany")
+
 #4, save temporal data 
 sex_all <- sex_all %>% select(MCSID, CNUM, SEX) %>%
   mutate(CNUM = factor(CNUM, levels = c(1, 2, 3), 

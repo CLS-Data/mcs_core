@@ -1,10 +1,5 @@
 # Rosenberg Self-esteem 
-#ROSENBERG	:	DV Rosenberg Self-esteem Score (0-15)
-#SATI	:	RosenbergGrid: On the whole, I am satisfied with myself
-#GDQL	:	RosenbergGrid: I feel I have a number of good qualities
-#DOWL	:	RosenbergGrid: I am able to do things as well as most other people
-#VALU	:	RosenbergGrid: I am a person of value
-#GDSF	:	RosenbergGrid: I feel good about myself
+# ROSENBERG	:	DV Rosenberg Self-esteem Score (0-15)
 
 #1, Extract variables from raw MCS data
 rosenberg_mcs5 <- read_dta(file.path(mcs5, "mcs5_cm_interview.dta")) %>%
@@ -161,25 +156,13 @@ for (var in vars_to_label) {
     mutate(!!sym(var) := labelled(.data[[var]], labels = setNames( all_levels, all_labels)))
 }
 
-#val_labels(rosenberg_all$SATI)
-attr(rosenberg_all$SATI, "label") <- "RosenbergGrid: On the whole, I am satisfied with myself"
-attr(rosenberg_all$GDQL, "label") <- "RosenbergGrid: I feel I have a number of good qualities"
-attr(rosenberg_all$DOWL, "label") <- "RosenbergGrid: I am able to do things as well as most other people"
-attr(rosenberg_all$VALU, "label") <- "RosenbergGrid: I am a person of value"
-attr(rosenberg_all$GDSF, "label") <- "RosenbergGrid: I feel good about myself"
 attr(rosenberg_all$DROSENBERG, "label") <- "DV Rosenberg Self-esteem Score (0-15)"
-
-table(rosenberg_all$SATI, rosenberg_all$SWEEP, useNA = "ifany")
-table(rosenberg_all$GDQL, rosenberg_all$SWEEP, useNA = "ifany")
-table(rosenberg_all$DOWL, rosenberg_all$SWEEP, useNA = "ifany")
-table(rosenberg_all$VALU, rosenberg_all$SWEEP, useNA = "ifany")
-table(rosenberg_all$GDSF, rosenberg_all$SWEEP, useNA = "ifany")
 table(rosenberg_all$DROSENBERG, rosenberg_all$SWEEP, useNA = "ifany")
 
 #4, save temporal data 
-rosenberg_all <- rosenberg_all %>% select(SWEEP, MCSID, CNUM, DROSENBERG, SATI, GDQL, DOWL, VALU, GDSF)
+rosenberg_all <- rosenberg_all %>% select(SWEEP, MCSID, CNUM, DROSENBERG)
 rosenberg_all <- rosenberg_all  %>%
-  mutate(SWEEP = labelled(SWEEP,labels = c("MCS5" = 5, "MCS6" = 6,"MCS7" = 7)))
+  mutate(SWEEP = labelled(SWEEP,labels = c("MCS5" = 5, "MCS6" = 6, "MCS7" = 7)))
 
 rosenberg_all <- rosenberg_all %>%  
   mutate(CNUM = factor(CNUM, levels = c(1, 2, 3), 
@@ -187,7 +170,7 @@ rosenberg_all <- rosenberg_all %>%
                                     "2nd Cohort Member of the family",
                                     "3rd Cohort Member of the family")))
 attr(rosenberg_all$SWEEP, "label") <- "MCS Sweep"
-saveRDS(rosenberg_all, file = file.path(temp_data_cdv, "ROSENBERG_SATI_GDQL_DOWL_VALU_GDSF.Rds"))
+saveRDS(rosenberg_all, file = file.path(temp_data_cdv, "ROSENBERG.Rds"))
 
 #5, save working memory
 rm(rosenberg_all, rosenberg_mcs5, rosenberg_mcs6, rosenberg_mcs7, datasets)

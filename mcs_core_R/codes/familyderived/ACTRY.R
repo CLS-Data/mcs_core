@@ -14,7 +14,13 @@ for(i in 1:6){
   input_file <- file.path(folder, paste0("mcs", i, "_family_derived.dta"))
   temporary <- read_dta(input_file) %>% mutate(SWEEP = i)
   actry_all <- bind_rows(actry_all, temporary)}
-actry_all <- bind_rows(actry_all, actry_mcs7)
+
+actry_mcs8 <- read_dta(file.path(mcs8, "mcs8_23y_cm_derived.dta")) %>%
+  rename(CNUM = hcnum00, MCSID = mcsid) %>%
+  mutate(SWEEP = 8) %>%
+  select(MCSID, CNUM, SWEEP, hdcntry)
+
+actry_all <- bind_rows(actry_all, actry_mcs7, actry_mcs8)
 
 #2, Change/recode/edit variables if needed
 
@@ -28,6 +34,7 @@ actry_all <- actry_all %>%
     SWEEP == 5 ~ EACTRY00,
     SWEEP == 6 ~ FACTRY00,
     SWEEP == 7 ~ GACTRY00,
+    SWEEP == 8 ~ hdcntry,
     .default = NA_real_))
 
 actry_all <- actry_all %>%

@@ -6,7 +6,7 @@ agey_mcs1 <- read_dta(file.path(mcs1, "mcs1_hhgrid.dta")) %>%
   filter(!is.na(ACNUM00), ACNUM00 != 0) %>%
   rename(CNUM = ACNUM00) %>%
   mutate(SWEEP = 1) %>%
-  select(MCSID, CNUM, SWEEP, AHCSEX00, AHCAGE00)
+  select(MCSID, CNUM, SWEEP, AHCAGE00)
 
 agey_mcs1 %>% group_by(MCSID, CNUM) %>%
   summarise(count = n(), .groups = "drop") %>%
@@ -16,19 +16,19 @@ agey_mcs2 <- read_dta(file.path(mcs2, "mcs2_hhgrid.dta")) %>%
   filter(!is.na(BCNUM00), BCNUM00 != 0) %>%
   rename(CNUM = BCNUM00) %>%
   mutate(SWEEP = 2) %>%
-  select(MCSID, CNUM, SWEEP, BHCSEX00, BHCAGE00)
+  select(MCSID, CNUM, SWEEP, BHCAGE00)
 
 agey_mcs3 <- read_dta(file.path(mcs3, "mcs3_hhgrid.dta")) %>%
   filter(!is.na(CCNUM00), CCNUM00 != 0) %>%
   rename(CNUM = CCNUM00) %>%
   mutate(SWEEP = 3) %>%
-  select(MCSID, CNUM, SWEEP, CHCSEX00, CHCAGE00)
+  select(MCSID, CNUM, SWEEP, CHCAGE00)
 
 agey_mcs4 <- read_dta(file.path(mcs4, "mcs4_hhgrid.dta")) %>%
   filter(!is.na(DCNUM00), DCNUM00 != -1) %>%
   rename(CNUM = DCNUM00) %>%
   mutate(SWEEP = 4) %>%
-  select(MCSID, CNUM, SWEEP, DHCSEX00, DHCAGE00)
+  select(MCSID, CNUM, SWEEP, DHCAGE00)
 
 agey_mcs4 %>% group_by(MCSID, CNUM) %>%
   summarise(count = n(), .groups = "drop") %>%
@@ -46,7 +46,7 @@ agey_mcs5 <- read_dta(file.path(mcs5, "mcs5_hhgrid.dta")) %>%
   filter(!is.na(ECNUM00), ECNUM00 != -1) %>%
   rename(CNUM = ECNUM00) %>%
   mutate(SWEEP = 5) %>%
-  select(MCSID, CNUM, SWEEP, ECSEX0000, ECAGE0000)
+  select(MCSID, CNUM, SWEEP, ECAGE0000)
 
 agey_mcs5 %>% group_by(MCSID, CNUM) %>%
   summarise(count = n(), .groups = "drop") %>%
@@ -56,7 +56,7 @@ agey_mcs6 <- read_dta(file.path(mcs6, "mcs6_hhgrid.dta")) %>%
   filter(!is.na(FCNUM00), FCNUM00 != -1) %>%
   rename(CNUM = FCNUM00) %>%
   mutate(SWEEP = 6) %>%
-  select(MCSID, CNUM, SWEEP, FHCSEX00, FHCAGE00)
+  select(MCSID, CNUM, SWEEP, FHCAGE00)
 
 agey_mcs6 %>% group_by(MCSID, CNUM) %>%
   summarise(count = n(), .groups = "drop") %>%
@@ -66,14 +66,23 @@ agey_mcs7 <- read_dta(file.path(mcs7, "mcs7_hhgrid.dta")) %>%
   filter(!is.na(GCNUM00), GCNUM00 != -1) %>%
   rename(CNUM = GCNUM00) %>%
   mutate(SWEEP = 7) %>%
-  select(MCSID, CNUM, SWEEP, GHCSEX00, GHCAGE00)
+  select(MCSID, CNUM, SWEEP, GHCAGE00)
 
 agey_mcs7 %>% group_by(MCSID, CNUM) %>%
   summarise(count = n(), .groups = "drop") %>%
   filter(count > 1)
 
+agey_mcs8_derived <- read_dta(file.path(mcs8, "mcs8_23y_cm_derived.dta")) %>%
+  select(mcsid, hcnum00, hdageinty) %>%
+  mutate(SWEEP = 8) %>%
+  rename(CNUM = hcnum00, MCSID = mcsid)
+
+agey_mcs8_derived %>% group_by(MCSID, CNUM) %>%
+  summarise(count = n(), .groups = "drop") %>%
+  filter(count > 1)
+
 datasets <- list(agey_mcs1, agey_mcs2, agey_mcs3, agey_mcs4,
-                      agey_mcs5, agey_mcs6, agey_mcs7)
+                      agey_mcs5, agey_mcs6, agey_mcs7, agey_mcs8_derived)
 agey_all <- bind_rows(datasets)
 agey_all <- left_join(agey_all, agey_mcs5_interview, by = c("MCSID", "CNUM"))
 
@@ -88,6 +97,7 @@ agey_all <- agey_all %>% mutate(
   GHCAGE00 = na_if(GHCAGE00, -1))
 
 agey_all <- agey_all %>%
+  zap_labels(AGEY) %>%
   mutate(AGEY = case_when(
     SWEEP == 1 ~ AHCAGE00,
     SWEEP == 2 ~ BHCAGE00,
@@ -96,6 +106,7 @@ agey_all <- agey_all %>%
     SWEEP == 5 ~ EMCS5AGE,
     SWEEP == 6 ~ FHCAGE00,
     SWEEP == 7 ~ GHCAGE00,
+    SWEEP == 8 ~ hdageinty,
     .default = NA_real_))
 
 agey_all <- agey_all %>%
@@ -109,13 +120,14 @@ agey_all <- agey_all %>%
       SWEEPAGE == 5 ~ 11,
       SWEEPAGE == 6 ~ 14,
       SWEEPAGE == 7 ~ 17,
+      SWEEPAGE == 8 ~ 23,
       TRUE ~ SWEEPAGE)) 
 
 table(agey_all$SWEEPAGE, useNA = "ifany")
 
 # Step 1: Define full value-label mapping
 all_vals <- c( -9, -8, -1)
-all_labs <- c("Refusal", "Don't know", "Not applicable")
+all_labs <- c("Refusal", "Don't know / Not enough information", "Not applicable")
 
 # Step 2: Attach labels to the numeric variable
 agey_all <- agey_all %>%
@@ -123,7 +135,6 @@ agey_all <- agey_all %>%
 val_labels(agey_all$AGEY)
 
 agey_all$AGEY <- round(agey_all$AGEY, 1)
-attr(agey_all$AGEY, "label") <- "Age at interview (years)"
 table(agey_all$AGEY, agey_all$SWEEP, useNA = "ifany")
 
 agey_all <- agey_all %>%
@@ -131,27 +142,29 @@ agey_all <- agey_all %>%
     SWEEPAGE = labelled(
       SWEEPAGE,
       labels = c(
-        "Refusal"         = -9,
-        "Don't know"      = -8,
-        "Not Applicable"  = -1,
-        "9 months"        = 1,
-        "3 years"         = 3,
-        "5 years"         = 5,
-        "7 years"         = 7,
-        "11 years"        = 11,
-        "14 years"        = 14,
-        "17 years"        = 17
+        "Refusal" = -9,
+        "Don't know" = -8,
+        "Not Applicable" = -1,
+        "9 months" = 1,
+        "3 years" = 3,
+        "5 years" = 5,
+        "7 years" = 7,
+        "11 years" = 11,
+        "14 years" = 14,
+        "17 years" = 17,
+        "23 years" = 23
       )
     )
   )
 
 table(agey_all$SWEEPAGE, useNA = "ifany")
+attr(agey_all$SWEEPAGE, "label") <- "Age at MCS Sweep (years)"
 val_labels(agey_all$SWEEPAGE)
 
 #4, save temporal data 
-agey_all <- agey_all %>% select(MCSID, CNUM, SWEEP, AGEY, SWEEPAGE)
+agey_all <- agey_all %>%  select(MCSID, CNUM, SWEEP, AGEY, SWEEPAGE)
 agey_all <- agey_all %>%
-  mutate(SWEEP = labelled(SWEEP, labels = c( "MCS1" = 1, "MCS2" = 2, "MCS3" = 3, "MCS4" = 4, "MCS5" = 5, "MCS6" = 6,"MCS7" = 7)))
+  mutate(SWEEP = labelled(SWEEP, labels = c( "MCS1" = 1, "MCS2" = 2, "MCS3" = 3, "MCS4" = 4, "MCS5" = 5, "MCS6" = 6, "MCS7" = 7, "MCS8" = 8)))
 
 agey_all <- agey_all %>%
   mutate(CNUM = factor(CNUM, levels = c(1, 2, 3), 
@@ -162,4 +175,4 @@ attr(agey_all$SWEEP, "label") <- "MCS Sweep"
 saveRDS(agey_all, file = file.path(temp_data_cdv, "AGEY_SWEEPAGE.Rds"))
 
 #5, save working memory
-rm(agey_all, agey_mcs1, agey_mcs2, agey_mcs3, agey_mcs4, agey_mcs5, agey_mcs6, agey_mcs7, agey_mcs5_interview, datasets)
+rm(agey_all, agey_mcs1, agey_mcs2, agey_mcs3, agey_mcs4, agey_mcs5, agey_mcs6, agey_mcs7, agey_mcs5_interview, agey_mcs8_derived, datasets)

@@ -50,8 +50,6 @@ bwgt_all <- bwgt_all %>% mutate(BWGT=ADBWGT00) %>%
       BWGTC == -1 ~ -1,
       TRUE ~ LOWBW))
 
-attr(bwgt_all$BWGT, "label") <- "Birth weight (Kilograms)"
-
 bwgt_all <- bwgt_all %>%
   mutate(BWGT = labelled(
     BWGT,
@@ -61,9 +59,8 @@ bwgt_all <- bwgt_all %>%
     )
   ))
 
+attr(bwgt_all$BWGT, "label") <- "Birth weight (Kilograms)"
 table(bwgt_all$BWGT, useNA = "ifany")
-
-attr(bwgt_all$BWGTC, "label") <- "DV Birth weight categories (Low, Normal, High)"
 
 bwgt_all <- bwgt_all %>%
   mutate(BWGTC = labelled(
@@ -77,9 +74,8 @@ bwgt_all <- bwgt_all %>%
     )
   ))
 
+attr(bwgt_all$BWGTC, "label") <- "DV Birth weight categories (Low, Normal, High)"
 table(bwgt_all$BWGTC, useNA = "ifany")
-
-attr(bwgt_all$LOWBW, "label") <- "DV Low birth weight (<2.5 kg)"
 
 bwgt_all <- bwgt_all %>%
   mutate(LOWBW = labelled(
@@ -92,6 +88,8 @@ bwgt_all <- bwgt_all %>%
       "No"             = 2
     )
   ))
+
+attr(bwgt_all$LOWBW, "label") <- "DV Low birth weight (<2.5 kg)"
 table(bwgt_all$LOWBW, useNA = "ifany")
 
 #4, save temporal data 

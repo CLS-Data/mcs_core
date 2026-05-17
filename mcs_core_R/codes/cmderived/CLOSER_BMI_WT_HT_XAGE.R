@@ -63,7 +63,7 @@ table(closer_all$BMI_C, closer_all$SWEEP, useNA = "ifany")
 closer_all <- closer_all %>% select(MCSID, CNUM, SWEEP, XAGE_C, WT_C, HT_C, BMI_C) %>%
   filter(!is.na(SWEEP))
 closer_all <- closer_all %>%
-  mutate(SWEEP = labelled(SWEEP,labels = c( "MCS1" = 1, "MCS2" = 2, "MCS3" = 3, "MCS4" = 4, "MCS5" = 5))) %>%
+  mutate(SWEEP = labelled(SWEEP,labels = c("MCS1" = 1, "MCS2" = 2, "MCS3" = 3, "MCS4" = 4, "MCS5" = 5))) %>%
   mutate(CNUM = factor(CNUM, levels = c(1, 2, 3), 
                        labels = c("1st Cohort Member of the family",
                                   "2nd Cohort Member of the family",

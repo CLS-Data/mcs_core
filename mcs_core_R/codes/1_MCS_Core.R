@@ -1,8 +1,8 @@
 #----------------------------------------------------------------------------#
-# R Script to generate the MCS Core dataset
+# R Script to generate the mcs_core_sweeps1_8 dataset
 #----------------------------------------------------------------------------#
 
-# NB. Please use .dta files only throughout your workflow.
+# NB. Please only use .dta files throughout your workflow.
 
 # Required packages
 library(dplyr)
@@ -14,8 +14,8 @@ library(labelled)
 # Step 1: Define paths for your data and code directories
 #----------------------------------------------------------------------------#
 
-# Define the root path where the MCS Core folder is located
-core_dir <- "" # Add the path to your 'mcs_core' folder here
+# Define the root path where the mcs_core_sweeps1_8 folder is located
+core_dir <- "" # Add the path to your 'mcs_core_sweeps1_8' folder here
 
 # Define specific subpaths for datasets
 mcs1 <- "" # Path to the MCS 1 datasets - UKDS SN 4683
@@ -25,6 +25,7 @@ mcs4 <- "" # Path to the MCS 4 datasets - UKDS SN 6411
 mcs5 <- "" # Path to the MCS 5 datasets - UKDS SN 7464
 mcs6 <- "" # Path to the MCS 6 datasets - UKDS SN 8156
 mcs7 <- "" # Path to the MCS 7 datasets - UKDS SN 8682
+mcs8 <- "" # Path to the MCS 8 datasets - UKDS SN 9509
 mcslf <- "" # Path to the MCS Longitudinal File - UKDS SN 8172
 closer <- "" # Path to the Harmonised Height, Weight and BMI dataset - UKDS SN 8550
 
@@ -61,7 +62,7 @@ for (var in dfamilyvar) {
 # Cohort member derived variables
 dcmvartv <- c("AGEY_SWEEPAGE", "BWGT", "CGHE", "CLOSER_BMI_WT_HT_XAGE", "CLSI_CLSL",
               "DC11E", "GESTAGE", "SDQ_SCBQ", "HEALTH", "SEX", "WEIGHT_HEIGHT",
-              "ROSENBERG_SATI_GDQL_DOWL_VALU_GDSF", "DWEMWBS", "COGNITIVE",
+              "ROSENBERG", "DWEMWBS", "COGNITIVE",
               "SUBSTANCE", "CRIME")
 
 for (var in dcmvartv) {
@@ -83,9 +84,9 @@ for (var in dparentvar) {
 #----------------------------------------------------------------------------#
 
 # Run the script to generate the mcs_longitudinal_family_file_long dataset
-source(file.path(codes, "2_MCS_long.R"))
+source(file.path(codes, "2_mcs_long.R"))
 
-# Run the script to generate the MCS Core dataset
-source(file.path(codes, "3_MCS_linkage.R"))
+# Run the script to generate the mcs_core_sweeps1_7 dataset
+source(file.path(codes, "3_mcs_linkage.R"))
 
 #----------------------------------------------------------------------------#

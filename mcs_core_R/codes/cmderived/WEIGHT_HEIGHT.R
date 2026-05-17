@@ -115,8 +115,17 @@ weight_height_mcs7 <- left_join(weight_height_mcs7, weight_height_mcs7_2, by = c
     SWEEP == NA ~ 7,
     TRUE ~ SWEEP))
 
+weight_height_mcs8 <- read_dta(file.path(mcs8, "mcs8_23y_cm_derived.dta")) %>%
+  zap_labels(weight_height_mcs8) %>%
+  rename(CNUM = hcnum00, MCSID = mcsid) %>%
+  mutate(WEIGHT = hdwghtk_r,
+         HEIGHT = hdhghtm_r) %>%
+  mutate(SWEEP = 8) %>%
+  select(MCSID, CNUM, SWEEP, WEIGHT, HEIGHT)
+
 datasets <- list(weight_height_mcs2, weight_height_mcs3, weight_height_mcs4,
-                 weight_height_mcs5, weight_height_mcs6, weight_height_mcs7)
+                 weight_height_mcs5, weight_height_mcs6, weight_height_mcs7,
+                 weight_height_mcs8)
 weight_height_all <- bind_rows(datasets) %>% select(-BMI)
 table(weight_height_all$SWEEP, useNA = "ifany")
 

@@ -121,7 +121,7 @@ attr(sdq_scbq_all$PROSOC, "label") <- "DV SDQ Prosocial (parent-reported)"
 attr(sdq_scbq_all$EBDTOT, "label") <- "DV SDQ Emotional Symptoms (parent-reported)"
 attr(sdq_scbq_all$DCSBI, "label") <- "DV Child Social Behaviour Questionnaire (Independence-Self Regulation)"
 attr(sdq_scbq_all$DCSBE, "label") <- "DV Child Social Behaviour Questionnaire (Emotional-Dysregulation)"
-attr(sdq_scbq_all$DCSBE, "label") <- "DV Child Social Behaviour Questionnaire (Cooperation)"
+attr(sdq_scbq_all$DCSBC, "label") <- "DV Child Social Behaviour Questionnaire (Cooperation)"
 
 table(sdq_scbq_all$DCSBI, sdq_scbq_all$SWEEP, useNA = "ifany")
 table(sdq_scbq_all$DCSBE, sdq_scbq_all$SWEEP, useNA = "ifany")
@@ -132,7 +132,7 @@ sdq_scbq_all <- sdq_scbq_all %>% select(MCSID, CNUM, SWEEP, EMOTION, CONDUCT, HY
                                         PEER, PROSOC, EBDTOT, DCSBI, DCSBE, DCSBC)
 
 sdq_scbq_all <- sdq_scbq_all  %>%
-  mutate(SWEEP = labelled(SWEEP,labels = c( "MCS1" = 1, "MCS2" = 2, "MCS3" = 3, "MCS4" = 4, "MCS5" = 5, "MCS6" = 6,"MCS7" = 7)))
+  mutate(SWEEP = labelled(SWEEP,labels = c( "MCS1" = 1, "MCS2" = 2, "MCS3" = 3, "MCS4" = 4, "MCS5" = 5, "MCS6" = 6, "MCS7" = 7)))
 
 sdq_scbq_all <- sdq_scbq_all %>%
   mutate(CNUM = factor(CNUM, levels = c(1, 2, 3), 

@@ -4,8 +4,6 @@
 #ALCOBI: Ever had five or more drinks at a time
 #SMOKCI: Ever tried smoking
 #SMOKVA: Ever tried e-cigarettes or vapes
-#DRUGCA: Ever tried cannabis
-#DRUGHA: Ever tried hard drugs
 
 #1, Extract variables from raw MCS data
 substance_mcs5 <- read_dta(file.path(mcs5, "mcs5_cm_interview.dta")) %>%
@@ -16,19 +14,19 @@ substance_mcs5 <- read_dta(file.path(mcs5, "mcs5_cm_interview.dta")) %>%
 substance_mcs6 <- read_dta(file.path(mcs6, "mcs6_cm_interview.dta")) %>%
   mutate(SWEEP = 6) %>%
   rename(CNUM = FCNUM00) %>%
-  select(MCSID, SWEEP, CNUM, FCALCD00, FCALNF00, FCALFV00, FCSMOK00, FCECIG00, FCCANB00, FCOTDR00)
+  select(MCSID, SWEEP, CNUM, FCALCD00, FCALNF00, FCALFV00, FCSMOK00, FCECIG00)
 
 substance_mcs7 <- read_dta(file.path(mcs7, "mcs7_cm_interview.dta")) %>%
   mutate(SWEEP = 7) %>%
   rename(CNUM = GCNUM00) %>%
-  mutate(
-    GHARDDRUG = case_when(
-      rowSums(across(c(GCDRUB00, GCDRUC00, GCDRUD00, GCDRUL00, GCDRUI00, GCDRUJ00, GCDRUK00), ~ .x %in% c(3, 4, 5))) == 7 ~ -1,
-      rowSums(across(c(GCDRUB00, GCDRUC00, GCDRUD00, GCDRUL00, GCDRUI00, GCDRUJ00, GCDRUK00), ~ .x == 1)) > 0 ~ 1,
-      TRUE ~ 2)) %>%
-  select(MCSID, SWEEP, CNUM, GCALCD00, GCALNF00, GCALFV00, GCSMOK00, GCVAPE00, GCDRUA00, GHARDDRUG)
+  select(MCSID, SWEEP, CNUM, GCALCD00, GCALNF00, GCALFV00, GCSMOK00, GCVAPE00)
 
-datasets <- list(substance_mcs5, substance_mcs6, substance_mcs7)
+substance_mcs8 <- read_dta(file.path(mcs8, "mcs8_23y_cm_survey.dta")) %>%
+  rename(CNUM = hcnum00, MCSID = mcsid) %>%
+  mutate(SWEEP = 8) %>%
+  select(MCSID, SWEEP, CNUM, hsaldr00, hssmoking00, hseciguse00)
+
+datasets <- list(substance_mcs5, substance_mcs6, substance_mcs7, substance_mcs8)
 substance_all <- bind_rows(datasets)
 table(substance_all$SWEEP, useNA = "ifany")
 
@@ -77,11 +75,6 @@ substance_all <- substance_all %>%
     GCSMOK00 == 8 ~ -9,
     GCSMOK00 == 9 ~ -1,
     TRUE ~ GCSMOK00)) %>%
-  mutate(GCDRUA00 = case_when(
-    GCDRUA00 == 3 ~ -8,
-    GCDRUA00 == 4 ~ -9,
-    GCDRUA00 == 5 ~ -1,
-    TRUE ~ GCDRUA00)) %>%
   mutate(GCALNF00 = case_when(
     GCALNF00 == 8 ~ -8,
     GCALNF00 == 9 ~ -9,
@@ -97,7 +90,26 @@ substance_all <- substance_all %>%
     GCVAPE00 == 7 ~ -8,
     GCVAPE00 == 8 ~ -9,
     GCVAPE00 == 9 ~ -1,
-    TRUE ~ GCVAPE00))
+    TRUE ~ GCVAPE00)) %>%
+  mutate(hsaldr00 = case_when(
+    hsaldr00 == 1 ~ 1,
+    hsaldr00 == 2 ~ 1,
+    hsaldr00 == 3 ~ 1,
+    hsaldr00 == 4 ~ 1,
+    hsaldr00 == 5 ~ 2,
+    TRUE ~ hsaldr00)) %>%
+  mutate(hssmoking00 = case_when(
+    hssmoking00 == 1 ~ 2,
+    hssmoking00 == 2 ~ 1,
+    hssmoking00 == 3 ~ 1,
+    hssmoking00 == 4 ~ 1,
+    TRUE ~ hssmoking00)) %>%
+  mutate(hseciguse00 = case_when(
+    hseciguse00 == 1 ~ 2,
+    hseciguse00 == 2 ~ 1,
+    hseciguse00 == 3 ~ 1,
+    hseciguse00 == 4 ~ 1,
+    TRUE ~ hseciguse00))
  
 #3, Generate new variable in a longitudinal format
 substance_all <- substance_all %>%
@@ -106,6 +118,7 @@ substance_all <- substance_all %>%
     SWEEP == 5 ~ ECQ61X00,
     SWEEP == 6 ~ FCALCD00,
     SWEEP == 7 ~ GCALCD00,
+    SWEEP == 8 ~ hsaldr00,
     .default = NA_real_)) %>%
   mutate(ALCOEV = case_when(
     ALCOEV == 2 ~ 0,
@@ -127,6 +140,7 @@ substance_all <- substance_all %>%
     SWEEP == 5 ~ ECQ59X00,
     SWEEP == 6 ~ FCSMOK00,
     SWEEP == 7 ~ GCSMOK00,
+    SWEEP == 8 ~ hssmoking00,
     .default = NA_real_)) %>%
   mutate(SMOKCI = case_when(
     SMOKCI == 2 ~ 0,
@@ -134,28 +148,15 @@ substance_all <- substance_all %>%
   mutate(SMOKVA = case_when(
     SWEEP == 6 ~ FCECIG00,
     SWEEP == 7 ~ GCVAPE00,
+    SWEEP == 8 ~ hseciguse00,
     .default = NA_real_)) %>%
   mutate(SMOKVA = case_when(
     SMOKVA == 2 ~ 0,
-    TRUE ~ SMOKVA)) %>%
-  mutate(DRUGCA = case_when(
-    SWEEP == 6 ~ FCCANB00,
-    SWEEP == 7 ~ GCDRUA00,
-    .default = NA_real_)) %>%
-  mutate(DRUGCA = case_when(
-    DRUGCA == 2 ~ 0,
-    TRUE ~ DRUGCA)) %>%
-  mutate(DRUGHA = case_when(
-    SWEEP == 6 ~ FCOTDR00,
-    SWEEP == 7 ~ GHARDDRUG,
-    .default = NA_real_)) %>%
-  mutate(DRUGHA = case_when(
-    DRUGHA == 2 ~ 0,
-    TRUE ~ DRUGHA))
+    TRUE ~ SMOKVA))
 
 substance_all <- substance_all %>%
   mutate(ALCOEV = labelled(ALCOEV,
-                           labels = c("Don't want to answer" = -9, "No answer/Don't know" = -8, "Not Applicable" = -1, 
+                           labels = c("Don't want to answer" = -9, "No answer/Don't know" = -8, "Not asked at casework stage" = -3, "Not Applicable" = -1, 
                                       "No" = 0, "Yes" = 1))) %>%
   mutate(ALCOFR = labelled(ALCOFR,
                            labels = c("Don't want to answer" = -9, "No answer/Don't know" = -8, "Not Applicable" = -1,
@@ -165,16 +166,10 @@ substance_all <- substance_all %>%
                            labels = c("Don't want to answer" = -9, "Don't know" = -8, "Not Applicable" = -1, 
                                       "No" = 0, "Yes" = 1))) %>%
   mutate(SMOKCI = labelled(SMOKCI,
-                           labels = c("Don't want to answer" = -9, "Don't know" = -8, "Not Applicable" = -1, 
+                           labels = c("Don't want to answer" = -9, "Don't know" = -8, "Not asked at casework stage" = -3, "Not Applicable" = -1, 
                                       "No" = 0, "Yes" = 1))) %>%
   mutate(SMOKVA = labelled(SMOKVA,
-                           labels = c("Don't want to answer" = -9, "Don't know" = -8, "Not Applicable" = -1, 
-                                      "No" = 0, "Yes" = 1))) %>%
-  mutate(DRUGCA = labelled(DRUGCA,
-                           labels = c("Don't want to answer" = -9, "Don't know" = -8, "Not Applicable" = -1, 
-                                      "No" = 0, "Yes" = 1))) %>%
-  mutate(DRUGHA = labelled(DRUGHA,
-                           labels = c("Don't want to answer" = -9, "Don't know" = -8, "Not Applicable" = -1, 
+                           labels = c("Don't want to answer" = -9, "Don't know" = -8, "Not asked at casework stage" = -3, "Not Applicable" = -1, 
                                       "No" = 0, "Yes" = 1)))
 
 attr(substance_all$ALCOEV, "label") <- "Ever had an alcoholic drink"
@@ -182,21 +177,17 @@ attr(substance_all$ALCOFR, "label") <- "Alcoholic drink frequency in the last 4 
 attr(substance_all$ALCOBI, "label") <- "Ever had five or more alcoholic drinks at a time"
 attr(substance_all$SMOKCI, "label") <- "Ever smoked a cigarette"
 attr(substance_all$SMOKVA, "label") <- "Ever smoked an e-cigarette or used a vape"
-attr(substance_all$DRUGCA, "label") <- "Ever taken cannabis/marijuana/weed"
-attr(substance_all$DRUGHA, "label") <- "Ever taken hard drugs (cocaine, acid/LSD, ecstasy, speed, ketamine, mephedrone, psychoactive substances)"
 
 table(substance_all$ALCOEV, substance_all$SWEEP, useNA = "ifany")
 table(substance_all$ALCOFR, substance_all$SWEEP, useNA = "ifany")
 table(substance_all$ALCOBI, substance_all$SWEEP, useNA = "ifany")
 table(substance_all$SMOKCI, substance_all$SWEEP, useNA = "ifany")
 table(substance_all$SMOKVA, substance_all$SWEEP, useNA = "ifany")
-table(substance_all$DRUGCA, substance_all$SWEEP, useNA = "ifany")
-table(substance_all$DRUGHA, substance_all$SWEEP, useNA = "ifany")
 
 #4, save temporal data 
-substance_all <- substance_all %>% select(SWEEP, MCSID, CNUM, ALCOEV, ALCOFR, ALCOBI, SMOKCI, SMOKVA, DRUGCA, DRUGHA)
+substance_all <- substance_all %>% select(SWEEP, MCSID, CNUM, ALCOEV, ALCOFR, ALCOBI, SMOKCI, SMOKVA)
 substance_all <- substance_all  %>%
-  mutate(SWEEP = labelled(SWEEP,labels = c("MCS5" = 5, "MCS6" = 6, "MCS7" = 7)))
+  mutate(SWEEP = labelled(SWEEP,labels = c("MCS5" = 5, "MCS6" = 6, "MCS7" = 7, "MCS8" = 8)))
 
 substance_all <- substance_all %>%  
   mutate(CNUM = factor(CNUM, levels = c(1, 2, 3), 
@@ -207,4 +198,4 @@ attr(substance_all$SWEEP, "label") <- "MCS Sweep"
 saveRDS(substance_all, file = file.path(temp_data_cdv, "SUBSTANCE.Rds"))
 
 #5, save working memory
-rm(substance_all, substance_mcs5, substance_mcs6, substance_mcs7, datasets)
+rm(substance_all, substance_mcs5, substance_mcs6, substance_mcs7, substance_mcs8, datasets)

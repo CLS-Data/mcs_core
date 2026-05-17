@@ -36,7 +36,7 @@ dminh_all <- dminh_all %>%
       )
     )
   )
-attr(dminh_all$DMINH, "label") <- "DV Natural father in HH"
+attr(dminh_all$DMINH, "label") <- "DV Natural mother in HH"
 table(dminh_all$DMINH, dminh_all$SWEEP, useNA = "ifany")
 
 #4, save temporal data 
