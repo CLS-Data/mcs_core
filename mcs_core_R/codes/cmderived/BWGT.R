@@ -70,7 +70,7 @@ bwgt_all <- bwgt_all %>%
       "Not Applicable"           = -1,
       "Low (<2.5 kg)"            = 1,
       "Normal (>=2.5 - <4 kg)"   = 2,
-      "High (>4 kg)"             = 3
+      "High (>=4 kg)"             = 3
     )
   ))
 

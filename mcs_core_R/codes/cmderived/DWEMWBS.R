@@ -1,5 +1,5 @@
 #YP Warwick-Edinburgh Mental Wellbeing Scale (WEMWBS) 
-# DWEMWBS:	DV WEMWBS: Sum of raw mental welbeing scores transformed to metric scale
+# DWEMWBS:	DV WEMWBS: Sum of raw mental wellbeing scores transformed to metric scale
 
 #1, Extract variables from raw MCS data
 dwemwbs_all <- read_dta(file.path(mcs7, "mcs7_cm_derived.dta")) %>%
@@ -22,7 +22,7 @@ dwemwbs_all <- dwemwbs_all %>%
       "Not Applicable" = -1
     )
   ))  
-attr(dwemwbs_all$DWEMWBS, "label") <- "DV WEMWBS: Sum of raw mental welbeing scores transformed to metric scale"
+attr(dwemwbs_all$DWEMWBS, "label") <- "DV WEMWBS: Sum of raw mental wellbeing scores transformed to metric scale"
 table(dwemwbs_all$DWEMWBS, useNA = "ifany")
 
 #4, save temporal data 

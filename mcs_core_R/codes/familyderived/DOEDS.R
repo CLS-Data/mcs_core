@@ -28,7 +28,7 @@ table(doeds_all$DOEDS, doeds_all$SWEEP, useNA = "ifany")
 #4, save temporal data 
 doeds_all <- doeds_all %>% select(MCSID, SWEEP, DOEDS)
 doeds_all <- doeds_all  %>%
-  mutate(SWEEP = labelled(SWEEP,labels = c( "MCS1" = 1, "MCS2" = 2, "MCS3" = 3, "MCS4" = 4, "MCS5" = 5, "MCS6" = 6,"MCS7" = 7)))
+  mutate(SWEEP = labelled(SWEEP,labels = c("MCS1" = 1, "MCS2" = 2, "MCS3" = 3, "MCS4" = 4, "MCS5" = 5, "MCS6" = 6,"MCS7" = 7)))
 
 table(doeds_all$DOEDS, useNA = "ifany")
 val_labels(doeds_all$DOEDS)

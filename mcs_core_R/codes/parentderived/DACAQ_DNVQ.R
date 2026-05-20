@@ -110,7 +110,7 @@ dacaq_dnvq_all <- dacaq_dnvq_all %>%
       "None of these"        = 96
     )
   ))
-attr(dacaq_dnvq_all$DACAQ, "label") <- "DV NVQ equivalent of highest Academic qualification across previos sweeps (Main Interviewee)"
+attr(dacaq_dnvq_all$DACAQ, "label") <- "DV NVQ equivalent of highest Academic qualification across previous sweeps (Main Interviewee)"
 table(dacaq_dnvq_all$DACAQ, dacaq_dnvq_all$SWEEP, useNA = "ifany")
 
 #4, save temporal data 

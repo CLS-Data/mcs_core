@@ -183,6 +183,16 @@ cognitive_all <- cognitive_all %>%
     labels = c("Refusal" = -9, "Don't know" = -8, "Not applicable" = -1,
                "Often" = 1, "Once or twice" = 2, "Not yet" = 3)
   )) %>%
+  mutate(SMIL = labelled(
+    SITU,
+    labels = c("Refusal" = -9, "Don't know" = -8, "Not applicable" = -1,
+               "Often" = 1, "Once or twice" = 2, "Not yet" = 3)
+  )) %>%
+  mutate(GRAB = labelled(
+    SITU,
+    labels = c("Refusal" = -9, "Don't know" = -8, "Not applicable" = -1,
+               "Often" = 1, "Once or twice" = 2, "Not yet" = 3)
+  )) %>%
   mutate(STAN = labelled(
     STAN,
     labels = c("Refusal" = -9, "Don't know" = -8, "Not applicable" = -1,

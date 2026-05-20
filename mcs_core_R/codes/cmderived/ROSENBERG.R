@@ -33,27 +33,27 @@ rosenberg_mcs7 <- read_dta(file.path(mcs7, "mcs7_cm_interview.dta")) %>%
   mutate(GCSATI00 = case_when(
     GCSATI00 == 5 ~ -8,
     GCSATI00 == 6 ~ -9,
-    GCSATI00 == 7 ~ -9,
+    GCSATI00 == 7 ~ -1,
     TRUE ~ GCSATI00)) %>%
   mutate(GCGDQL00 = case_when(
     GCGDQL00 == 5 ~ -8,
     GCGDQL00 == 6 ~ -9,
-    GCGDQL00 == 7 ~ -9,
+    GCGDQL00 == 7 ~ -1,
     TRUE ~ GCGDQL00)) %>%
   mutate(GCDOWL00 = case_when(
     GCDOWL00 == 5 ~ -8,
     GCDOWL00 == 6 ~ -9,
-    GCDOWL00 == 7 ~ -9,
+    GCDOWL00 == 7 ~ -1,
     TRUE ~ GCDOWL00)) %>%
   mutate(GCVALU00 = case_when(
     GCVALU00 == 5 ~ -8,
     GCVALU00 == 6 ~ -9,
-    GCVALU00 == 7 ~ -9,
+    GCVALU00 == 7 ~ -1,
     TRUE ~ GCVALU00)) %>%
   mutate(GCGDSF00 = case_when(
     GCGDSF00 == 5 ~ -8,
     GCGDSF00 == 6 ~ -9,
-    GCGDSF00 == 7 ~ -9,
+    GCGDSF00 == 7 ~ -1,
     TRUE ~ GCGDSF00)) %>%
   select(MCSID, SWEEP, CNUM, GCSATI00, GCGDQL00, GCDOWL00, GCVALU00, GCGDSF00)
 

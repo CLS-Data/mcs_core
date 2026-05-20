@@ -58,7 +58,7 @@ table(actry_all$ACTRY, actry_all$SWEEP, useNA = "ifany")
 #4, save temporal data 
 actry_all <- actry_all %>% select(MCSID, SWEEP, ACTRY)
 actry_all <- actry_all  %>%
-  mutate(SWEEP = labelled(SWEEP,labels = c( "MCS1" = 1, "MCS2" = 2, "MCS3" = 3, "MCS4" = 4, "MCS5" = 5, "MCS6" = 6,"MCS7" = 7)))
+  mutate(SWEEP = labelled(SWEEP,labels = c( "MCS1" = 1, "MCS2" = 2, "MCS3" = 3, "MCS4" = 4, "MCS5" = 5, "MCS6" = 6,"MCS7" = 7, "MCS8" = 8)))
 attr(actry_all$SWEEP, "label") <- "MCS Sweep"
 saveRDS(actry_all, file = file.path(temp_data_fdv, "ACTRY.Rds"))
 

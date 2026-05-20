@@ -176,10 +176,10 @@ health_all <- health_all %>%
                                          "7 hours to less than 10 hours" = 8, "10 hours or more" = 9))) %>%
   mutate(SOCMEDA = labelled(SOCMEDA,
                               labels = c("Prefer not to say" = -9, "Don't know" = -8, "Not asked at case fieldwork stage" = -3, "Not Applicable" = -1,
-                                         "Strongly agree" = 1, "Agree" = 2, "Disgaree" = 3, "Strongly disagree" = 4))) %>%
+                                         "Strongly agree" = 1, "Agree" = 2, "Disagree" = 3, "Strongly disagree" = 4))) %>%
   mutate(SOCMEDC = labelled(SOCMEDC,
                               labels = c("Prefer not to say" = -9, "Don't know" = -8, "Not asked at case fieldwork stage" = -3, "Not Applicable" = -1,
-                                         "Strongly agree" = 1, "Agree" = 2, "Disgaree" = 3, "Strongly disagree" = 4))) %>%
+                                         "Strongly agree" = 1, "Agree" = 2, "Disagree" = 3, "Strongly disagree" = 4))) %>%
   mutate(WGHTP = labelled(WGHTP,
                               labels = c("Prefer not to say" = -9, "Don't know" = -8, "Not asked at case fieldwork stage" = -3, "Not Applicable" = -1,
                                          "Underweight" = 1, "About the right weight" = 2, "Slightly overweight" = 3, "Very overweight" = 4)))

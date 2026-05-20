@@ -118,7 +118,7 @@ attr(sdq_scbq_all$CONDUCT, "label") <- "DV SDQ Conduct Problems (parent-reported
 attr(sdq_scbq_all$HYPER, "label") <- "DV SDQ Hyperactivity/Inattention (parent-reported)"
 attr(sdq_scbq_all$PEER, "label") <- "DV SDQ Peer Problems (parent-reported)"
 attr(sdq_scbq_all$PROSOC, "label") <- "DV SDQ Prosocial (parent-reported)"
-attr(sdq_scbq_all$EBDTOT, "label") <- "DV SDQ Emotional Symptoms (parent-reported)"
+attr(sdq_scbq_all$EBDTOT, "label") <- "DV SDQ Total Difficulties (parent-reported)"
 attr(sdq_scbq_all$DCSBI, "label") <- "DV Child Social Behaviour Questionnaire (Independence-Self Regulation)"
 attr(sdq_scbq_all$DCSBE, "label") <- "DV Child Social Behaviour Questionnaire (Emotional-Dysregulation)"
 attr(sdq_scbq_all$DCSBC, "label") <- "DV Child Social Behaviour Questionnaire (Cooperation)"
