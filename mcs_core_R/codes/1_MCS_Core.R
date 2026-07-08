@@ -33,13 +33,13 @@ closer <- "" # Path to the Harmonised Height, Weight and BMI dataset - UKDS SN 8
 # Step 2: Define paths for temporary data and code directories
 #----------------------------------------------------------------------------#
 #set temp_data folders
-temp_data <- file.path(core_dir, "temp_data/")
+temp_data <- file.path(core_dir, "temp_data")
 temp_data_fdv <- file.path(temp_data, "familyderived")
 temp_data_cdv <- file.path(temp_data, "cmderived")
 temp_data_pdv <- file.path(temp_data, "parentderived")
 
 #set code folders
-codes <- file.path(core_dir, "codes/")
+codes <- file.path(core_dir, "codes")
 codes_fdv <- file.path(codes, "familyderived")
 codes_cdv <- file.path(codes, "cmderived")
 codes_pdv <- file.path(codes, "parentderived")
