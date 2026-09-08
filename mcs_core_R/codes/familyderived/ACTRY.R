@@ -15,10 +15,14 @@ for(i in 1:6){
   temporary <- read_dta(input_file) %>% mutate(SWEEP = i)
   actry_all <- bind_rows(actry_all, temporary)}
 
-actry_mcs8 <- read_dta(file.path(mcs8, "mcs8_23y_cm_derived.dta")) %>%
-  rename(CNUM = hcnum00, MCSID = mcsid) %>%
-  mutate(SWEEP = 8) %>%
-  select(MCSID, CNUM, SWEEP, hdcntry)
+actry_mcs8 <- read_dta(
+  file.path(mcs8, "mcs8_23y_cm_derived.dta")) %>%
+  rename(MCSID = mcsid) %>%
+  transmute(
+    MCSID,
+    SWEEP = 8,
+    hdcntry = -8) %>%
+  distinct()
 
 actry_all <- bind_rows(actry_all, actry_mcs7, actry_mcs8)
 
